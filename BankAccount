@@ -1,0 +1,220 @@
+package MinBankApp;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+public class BankAccount {
+
+    private List<Transaction> transactions;
+    private int nextId;
+
+
+    public BankAccount(){
+
+        transactions = new ArrayList<>();
+        nextId = 1; // första transktionen får ID 1
+
+    }
+
+    public int getTransactionCount(){
+        return transactions.size();
+    }
+
+    public void addTransaction(String title, Date date, double amount){
+        Transaction transaction = new Transaction(nextId, title, date, amount);
+        transactions.add(transaction);
+        nextId++;
+
+    }
+
+    public void showAllTransactions(){
+
+        if(transactions.isEmpty()){
+            System.out.println("Det finns inga transaktioner!");
+        }else {
+            System.out.println("Alla transaktioner: ");
+            for (Transaction t : transactions){
+                System.out.println(t);
+            }
+
+        }
+
+    }
+
+    public double getBalance() {
+
+        double balance = 0;
+        for (Transaction t : transactions) {
+            balance += t.getAmount();
+        }
+        return balance;
+    }
+
+    public boolean removeTransaction(int id){
+
+        for (int i = 0; i < transactions.size(); i++) {
+            if(transactions.get(i).getId() == id){
+                transactions.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isSameDay(Date date1, Date date2){
+
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+        cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+
+    }
+
+    private boolean isThisWeek(Date date){
+
+        Calendar cal = Calendar.getInstance();
+        int currentWeek = cal.get(Calendar.WEEK_OF_YEAR);
+        int currentYear = cal.get(Calendar.YEAR);
+
+        cal.setTime(date);
+        int dateWeek = cal.get(Calendar.WEEK_OF_YEAR);
+        int dateYear = cal.get(Calendar.YEAR);
+
+        return currentWeek == dateWeek && currentYear == dateYear;
+    }
+
+    public double getExpensesToday(){
+
+        double expenses = 0;
+        Date today = new Date();
+
+        for(Transaction t : transactions){
+            if(isSameDay(t.getDate(),today) && t.getAmount() < 0){
+                expenses += t.getAmount();
+            }
+        }
+        return expenses;
+    }
+
+    public double getIncomeToday(){
+
+        double income = 0;
+        Date today = new Date();
+
+        for(Transaction t: transactions){
+            if(isSameDay(t.getDate(), today) && t.getAmount() > 0){
+                income += t.getAmount();
+            }
+        }
+
+        return income;
+    }
+
+    // veckans utgifter (negativa belopp)
+    public double getExpensesThisWeek() {
+
+        double expenses = 0;
+
+        for (Transaction t : transactions) {
+            if (isThisWeek(t.getDate()) && t.getAmount() < 0) {
+                expenses += t.getAmount();
+            }
+        }
+        return expenses;
+    }
+
+    // veckans inkomster (positiva belopp)
+    public double getIncomeThisWeek() {
+
+        double income = 0;
+
+        for (Transaction t : transactions) {
+            if (isThisWeek(t.getDate()) && t.getAmount() > 0) {
+                income += t.getAmount();
+            }
+        }
+        return income;
+    }
+    // hjälpmetod för att kontrollera om datum är denna månad
+    private boolean isThisMonth(Date date) {
+
+        Calendar cal = Calendar.getInstance();
+        int currentMonth = cal.get(Calendar.MONTH);
+        int currentYear = cal.get(Calendar.YEAR);
+
+        cal.setTime(date);
+        int dateMonth = cal.get(Calendar.MONTH);
+        int dateYear = cal.get(Calendar.YEAR);
+
+        return currentMonth == dateMonth && currentYear == dateYear;
+    }
+
+    // hjälpmetod för att kontrollera om datum är detta år
+    private boolean isThisYear(Date date) {
+
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+
+        cal.setTime(date);
+        int dateYear = cal.get(Calendar.YEAR);
+
+        return currentYear == dateYear;
+    }
+    // månadens utgifter (negativa belopp)
+    public double getExpensesThisMonth() {
+
+        double expenses = 0;
+
+        for (Transaction t : transactions) {
+            if (isThisMonth(t.getDate()) && t.getAmount() < 0) {
+                expenses += t.getAmount();
+            }
+        }
+        return expenses;
+    }
+
+    // månadens inkomster (positiva belopp)
+    public double getIncomeThisMonth() {
+
+        double income = 0;
+
+        for (Transaction t : transactions) {
+            if (isThisMonth(t.getDate()) && t.getAmount() > 0) {
+                income += t.getAmount();
+            }
+        }
+        return income;
+    }
+
+    // årets utgifter (negativa belopp)
+    public double getExpensesThisYear() {
+
+        double expenses = 0;
+
+        for (Transaction t : transactions) {
+            if (isThisYear(t.getDate()) && t.getAmount() < 0) {
+                expenses += t.getAmount();
+            }
+        }
+        return expenses;
+    }
+
+    // årets inkomster (positiva belopp)
+    public double getIncomeThisYear() {
+
+        double income = 0;
+
+        for (Transaction t : transactions) {
+            if (isThisYear(t.getDate()) && t.getAmount() > 0) {
+                income += t.getAmount();
+            }
+        }
+        return income;
+    }
+
+}
