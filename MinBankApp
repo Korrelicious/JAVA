@@ -1,0 +1,125 @@
+package MinBankApp;
+
+import java.util.Date;
+import java.util.Scanner;
+
+public class MinBankApp {
+
+private BankAccount account;
+private Scanner sc;
+
+public MinBankApp(){
+
+    account = new BankAccount();
+    sc = new Scanner(System.in);
+
+}
+
+    public static void main(String[] args) {
+
+        MinBankApp app = new MinBankApp();
+        app.run();
+    }
+
+    public void run(){
+
+
+try {
+        while (true) {
+            System.out.println("==== Välkommen till Andreas bankapp ====");
+            System.out.println("1. Lägg till transaktion");
+            System.out.println("2. Ta bort transaktion");
+            System.out.println("3. Visa balans");
+            System.out.println("4. Visa alla transaktioner");
+            System.out.println("5. Visa statistik");
+            System.out.println("6. Avsluta appen");
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    addTransaction();
+                    break;
+                case 2:
+                    removeTransaction();
+                    break;
+                case 3:
+                    System.out.println("Din balans är: " + account.getBalance() + " kr");
+                    break;
+                case 4:
+                    account.showAllTransactions();
+                    break;
+                case 5:
+                    showAllStatistics();
+                    return;
+                case 6:
+                    System.out.println("Du avslutade appen. På återseende!");
+                    break;
+                default:
+                    System.out.println("Ogiltigt val! Välj 1-5");
+            }
+
+        }
+        }catch (Exception exception){
+                    System.out.println("Fel inmatning, måste vara en siffra mellan 1 - 6");
+
+}
+
+
+
+    }
+private void addTransaction(){
+
+    sc.nextLine();//rensa
+
+    System.out.println("Title: ");
+    String title = sc.nextLine();
+    System.out.println("Belopp (positivt för inkomst, negativt för utgift): ");
+    double amount = sc.nextDouble();
+
+    Date currentDate = new Date();//dagens datum
+
+    account.addTransaction(title, currentDate, amount);
+    System.out.println("Transaktion tillagd!");
+
+}
+
+private void removeTransaction(){
+
+    if(account.getTransactionCount() == 0){
+        System.out.println("Finns inga transaktioner!");
+        return;
+    }
+
+    System.out.println("Transaktioner: ");
+    account.showAllTransactions();
+
+    System.out.println("Ange ID för transaktionen du vill ta bort: ");
+    int id = sc.nextInt();
+
+    if(account.removeTransaction(id)){
+        System.out.println("Transaktion borttagen!");
+    }else {
+        System.out.println("Ingen transaktion med ID" + id + " hittades.");
+    }
+
+}
+
+public void showAllStatistics(){
+
+    System.out.println("Statistik");
+    // utgifter
+    System.out.println("Utgifter");
+    System.out.println("Idag: " + account.getExpensesToday() + " kr");
+    System.out.println("Denna vecka: " + account.getExpensesThisWeek() + " kr");
+    System.out.println("Denna månad: "+ account.getExpensesThisMonth() + " kr");
+    System.out.println("Detta år: " + account.getExpensesThisYear() + " kr");
+    // inkomster
+    System.out.println("Inkomster");
+    System.out.println("Idag: " + account.getIncomeToday() + " kr");
+    System.out.println("Denna vecka: " + account.getIncomeThisWeek() + " kr");
+    System.out.println("Denna månad: " + account.getIncomeThisMonth()+ " kr");
+    System.out.println("Detta år: " + account.getIncomeThisYear() + " kr");
+}
+
+}
