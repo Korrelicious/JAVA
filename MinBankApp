@@ -56,7 +56,7 @@ try {
                     System.out.println("Du avslutade appen. På återseende!");
                     break;
                 default:
-                    System.out.println("Ogiltigt val! Välj 1-5");
+                    System.out.println("Ogiltigt val! Välj 1-6");
             }
 
         }
