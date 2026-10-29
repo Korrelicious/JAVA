@@ -90,6 +90,7 @@ Starta PostgreSQL i Docker från mappen `recipe-api`:
 
 ```
 docker compose up -d
+
 ```
 
 Databasen heter `recipes` med användaren `recipe_user`. Lösenordet (`POSTGRES_PASSWORD`) i `docker-compose.yml` är ett exempelvärde och måste vara samma som `DB_PASSWORD` nedan.
