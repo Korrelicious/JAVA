@@ -129,7 +129,7 @@ npm install
 ## Testa applikationen
 
 1. Starta databasen, API:et och appen enligt stegen ovan.
-2. Tryck på **Skapa konto** på startsidan och registrera ett eget konto. [FYLL I: eventuellt testkonto, t.ex. e-post och lösenord, om du vill ange ett]
+2. Tryck på **Skapa konto** på startsidan och registrera ett eget konto.
 3. Det finns inga recept från början. Tryck på **Nytt recept** för att skapa ett. Kategorierna (Huvudrätt, Efterrätt, Förrätt, Bakning) finns redan.
 4. Testa sedan:
    - Öppna ett recept och tryck på **Favorit** och **Dela recept**
